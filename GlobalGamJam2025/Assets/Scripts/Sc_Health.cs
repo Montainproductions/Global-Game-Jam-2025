@@ -15,7 +15,6 @@ public class Sc_Health : MonoBehaviour
     public TextMeshProUGUI healthText;
     public TextMeshProUGUI inflationText;
 
-    public string healthString;
 
     void Start()
     {

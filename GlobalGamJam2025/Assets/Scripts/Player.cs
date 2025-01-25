@@ -166,18 +166,34 @@ public class Player : MonoBehaviour
                     }
 
 
+
+
+                    Debug.Log("hit");
+                }
+
+                if (hit.collider.tag == "pickup")
+                {
+                    for (int i = 0; i < pooledDamageEffectCount; i++)
+                    {
+                        if (!pooledDamageEffects[i].activeInHierarchy)
+                        {
+                            pooledDamageEffects[i].transform.position = hit.point;
+                            pooledDamageEffects[i].SetActive(true);
+                            break;
+                        }
+                    }
+
                     if (!inflator)
                     {
-                        hit.collider.GetComponent<Sc_Health>().currentHealth -= damage;
+                        hit.collider.GetComponent<PickupHealth>().currentHealth -= damage;
                     }
                     else
                     {
-                        hit.collider.GetComponent<Sc_Health>().currentInflation += damage;
+
                     }
 
-                    hit.collider.GetComponent<Sc_Health>().UpdateHealth();
+                    hit.collider.GetComponent<PickupHealth>().UpdateHealth();
 
-                    Debug.Log("hit");
                 }
             }
             else

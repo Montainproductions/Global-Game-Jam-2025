@@ -6,6 +6,7 @@ TagManager:
   tags:
   - cactus
   - enemy
+  - pickup
   layers:
   - Default
   - TransparentFX
