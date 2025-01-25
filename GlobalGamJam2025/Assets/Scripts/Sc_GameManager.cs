@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class Sc_GameManager : MonoBehaviour
 {
-    private int currentLevel=0, enemiesToSpawn;
+    private int currentRound = 0;
+    
+    private int basicEnemiesToSpawn = 0, midEnemiesToSpawn = 0, largeEnemiesToSpawn = 0;
+
+    [SerializeField] //5, 15, 65
+    private int currentRoundPointValue, basicEnemyPointValue, midEnemyPointValue, largeEnemyPointValue;
 
     [SerializeField]
     private GameObject baseEnemy;
@@ -15,7 +20,7 @@ public class Sc_GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        NewRoundPoints();
     }
 
     // Update is called once per frame
@@ -23,4 +28,33 @@ public class Sc_GameManager : MonoBehaviour
     {
         
     }
+
+    public void NewRoundPoints(){
+        currentRound++
+        currentRoundPointValue = currentRound * designerVal
+        EnemiesToSpawn();
+    }
+
+    public void EnemiesToSpawn(){
+        int returnedRange;
+        while(currentRoundPointValue > basicEnemyPointValue){
+            returnedRange = random.range(0,100);
+            if(currentRoundPointValue > largeEnemyPointValue){
+                if(returnedRange < 70){
+                    basicEnemiesToSpawn++;
+                }else if(returnedRange > 70 && returnedRange < 90){
+
+                }else{
+
+                }
+            }else if(currentRoundPointValue > midEnemyPointValue){
+
+            }
+        }
+    }
+
+    public void ChooseSide(){
+        
+    }
+
 }
