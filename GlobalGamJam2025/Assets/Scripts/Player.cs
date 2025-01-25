@@ -172,7 +172,7 @@ public class Player : MonoBehaviour
                     }
                     else
                     {
-                        hit.collider.GetComponent<Sc_Health>().currentHealth += damage;
+                        hit.collider.GetComponent<Sc_Health>().currentInflation += damage;
                     }
 
                     hit.collider.GetComponent<Sc_Health>().UpdateHealth();
