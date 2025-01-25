@@ -29,21 +29,27 @@ public class Sc_GameManager : MonoBehaviour
         
     }
 
-    public void NewRoundPoints(){
+    public void NewRoundPoints()
+    {
         currentRound++;
-        currentRoundPointValue = currentRound * designerVal
+
+        //***COMMENTED OUT SO SCRIPT WOULD COMPILE***
+        //currentRoundPointValue = currentRound * designerVal;
         EnemiesToSpawn();
     }
 
     public void EnemiesToSpawn(){
         int returnedRange;
         while(currentRoundPointValue > basicEnemyPointValue){
-            returnedRange = random.range(0,100);
+            returnedRange = Random.Range(0,100);
             if(currentRoundPointValue > largeEnemyPointValue){
                 if(returnedRange < 70){
                     basicEnemiesToSpawn++;
-                    currentRoundPointValue = currentRoundPointValue -
-                }else if(returnedRange > 70 && returnedRange < 90){
+
+                    //***COMMENTED OUT SO SCRIPT WOULD COMPILE***
+                    //currentRoundPointValue = currentRoundPointValue -
+                }
+                else if(returnedRange > 70 && returnedRange < 90){
                     midEnemiesToSpawn++;
                 }else{
                     largeEnemiesToSpawn++;
