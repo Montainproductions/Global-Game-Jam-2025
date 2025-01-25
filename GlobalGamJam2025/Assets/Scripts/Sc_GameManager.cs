@@ -67,9 +67,6 @@ public class Sc_GameManager : MonoBehaviour
                 if (returnedRange < 70)
                 {
                     basicEnemiesToSpawn++;
-
-                    //***COMMENTED OUT SO SCRIPT WOULD COMPILE***
-                    //currentRoundPointValue = currentRoundPointValue -
                 }
                 else if (returnedRange > 70 && returnedRange < 90)
                 {
