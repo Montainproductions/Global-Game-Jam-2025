@@ -122,7 +122,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76303ca6e0e07de449eed21b89d60978, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  currentSpeed: 0
+  minSpeed: 3.5
+  maxSpeed: 4.5
   transformItem: {fileID: 7980062608830633942}
 --- !u!114 &7770306723214184561
 MonoBehaviour:
@@ -131,11 +133,16 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6982038812994119996}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d87ffbda25b368f419d29f352dfa8934, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHealth: 0
-  maxHealth: 0
-  currentHealth: 0
+  startingHealth: 100
+  currentHealth: 100
+  currentInflation: 0
+  maxInflation: 8
+  enemyCanvas: {fileID: 0}
+  healthText: {fileID: 0}
+  inflationText: {fileID: 0}
+  healthString: 
