@@ -122,6 +122,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76303ca6e0e07de449eed21b89d60978, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 4
+  transformItem: {fileID: 7051458708165729013}
 --- !u!114 &8383603646742947658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,5 +136,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d87ffbda25b368f419d29f352dfa8934, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 175
-  gameObject: {fileID: 1563880011870691082}
+  startingHealth: 0
+  maxHealth: 0
+  currentHealth: 0

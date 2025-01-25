@@ -18,7 +18,7 @@ public class Sc_GameManager : MonoBehaviour
     private GameObject baseEnemy, midEnemy, largeEnemy;
 
     [SerializeField]
-    private Vector3[] spawnPoint1, spawnPoint2;
+    private Transform[] spawnPoint1, spawnPoint2;
 
     // Start is called before the first frame update
     void Start()
@@ -37,7 +37,8 @@ public class Sc_GameManager : MonoBehaviour
         currentRound++;
 
         //***COMMENTED OUT SO SCRIPT WOULD COMPILE***
-        //currentRoundPointValue = currentRound * designerVal;
+        currentRoundPointValue = currentRound * designerVal;
+        //Debug.Log(currentRoundPointValue);
         EnemiesToSpawn();
     }
 
@@ -45,36 +46,40 @@ public class Sc_GameManager : MonoBehaviour
     {
         int totalEnemySpawn;
 
-        AmountOfEnemies();
+        StartCoroutine(AmountOfEnemies());
 
         totalEnemySpawn = basicEnemiesToSpawn + midEnemiesToSpawn + largeEnemiesToSpawn;
 
         for (int i = 0; i < totalEnemySpawn; i++)
         {
-            ChooseSide();
+            //Debug.Log(totalEnemySpawn);
+            StartCoroutine(ChooseSide());
         }
-        Debug.Log(basicEnemiesToSpawn + midEnemiesToSpawn + largeEnemiesToSpawn);
     }
 
-    public void AmountOfEnemies()
+    IEnumerator AmountOfEnemies()
     {
         int returnedRange;
-        while (currentRoundPointValue > basicEnemyPointValue)
+        while (currentRoundPointValue >= basicEnemyPointValue)
         {
             returnedRange = Random.Range(0, 100);
+            //yield return new WaitForSeconds(0.01f);
             if (currentRoundPointValue > largeEnemyPointValue)
             {
                 if (returnedRange < 70)
                 {
                     basicEnemiesToSpawn++;
+                    currentRoundPointValue -= basicEnemyPointValue;
                 }
                 else if (returnedRange > 70 && returnedRange < 90)
                 {
                     midEnemiesToSpawn++;
+                    currentRoundPointValue -= midEnemyPointValue;
                 }
                 else
                 {
                     largeEnemiesToSpawn++;
+                    currentRoundPointValue -= largeEnemyPointValue;
                 }
             }
             else if (currentRoundPointValue > midEnemyPointValue)
@@ -82,13 +87,22 @@ public class Sc_GameManager : MonoBehaviour
                 if (returnedRange < 80)
                 {
                     basicEnemiesToSpawn++;
+                    currentRoundPointValue -= basicEnemyPointValue;
                 }
                 else
                 {
                     midEnemiesToSpawn++;
+                    currentRoundPointValue -= midEnemyPointValue;
+                }
+            }else{
+                if (returnedRange < 80)
+                {
+                    basicEnemiesToSpawn++;
+                    currentRoundPointValue -= basicEnemyPointValue;
                 }
             }
         }
+        yield return null;
     }
 
     IEnumerator ChooseSide()
@@ -97,41 +111,44 @@ public class Sc_GameManager : MonoBehaviour
         chooseSide = Random.Range(0, 2);
         spawnerVal = Random.Range(0, 3);
 
-        yield return new WaitForSeconds(chooseSide);
-
+        yield return new WaitForSeconds(0.01f);
+        //Debug.Log(chooseSide);
         if (chooseSide == 0)
         {
+            //Debug.Log("Hello Area 1");
             if (basicEnemiesToSpawn > 0)
             {
-                Instantiate(baseEnemy, spawnPoint1[spawnerVal], Quaternion.identity);
+                Instantiate(baseEnemy, spawnPoint1[spawnerVal].position, Quaternion.identity);
                 basicEnemiesToSpawn--;
             }
             else if (midEnemiesToSpawn > 0)
             {
-                Instantiate(midEnemy, spawnPoint1[spawnerVal], Quaternion.identity);
+                Instantiate(midEnemy, spawnPoint1[spawnerVal].position, Quaternion.identity);
                 midEnemiesToSpawn--;
             }
             else if (largeEnemiesToSpawn > 0)
             {
-                Instantiate(largeEnemy, spawnPoint1[spawnerVal], Quaternion.identity);
+                Instantiate(largeEnemy, spawnPoint1[spawnerVal].position, Quaternion.identity);
                 largeEnemiesToSpawn--;
             }
         }
         else
         {
+            //Debug.Log("Hello 2 Area");
             if (basicEnemiesToSpawn > 0)
             {
-                Instantiate(baseEnemy, spawnPoint2[spawnerVal], Quaternion.identity);
+                Instantiate(baseEnemy, spawnPoint2[spawnerVal].position, Quaternion.identity);
+                
                 basicEnemiesToSpawn--;
             }
             else if (midEnemiesToSpawn > 0)
             {
-                Instantiate(midEnemy, spawnPoint2[spawnerVal], Quaternion.identity);
+                Instantiate(midEnemy, spawnPoint2[spawnerVal].position, Quaternion.identity);
                 midEnemiesToSpawn--;
             }
             else if (largeEnemiesToSpawn > 0)
             {
-                Instantiate(largeEnemy, spawnPoint2[spawnerVal], Quaternion.identity);
+                Instantiate(largeEnemy, spawnPoint2[spawnerVal].position, Quaternion.identity);
                 largeEnemiesToSpawn--;
             }
         }
