@@ -13,9 +13,21 @@ public class Player : MonoBehaviour
     public TextMeshProUGUI debugGunText;
 
     [Header("Shooting")]
+    public float fireRateReset;
+    public float fireRate;
+    public int specialBulletsRemaining;
     public RaycastHit hit;
     public LayerMask layerMask;
     public float shootingDistance;
+
+    public enum GunType
+    {
+        Normal,
+        Hotdog
+    }
+
+    [SerializeField] public GunType currentGun;
+
 
     [Header("Cactus")]
     public bool cantDrop;
@@ -39,6 +51,12 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (fireRate > 0)
+        {
+            fireRate -= Time.deltaTime;
+        }
+
         if (Input.GetKey(KeyCode.A))
         {
             MoveLeft();
@@ -49,7 +67,7 @@ public class Player : MonoBehaviour
             MoveRight();
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space))
         {
             Shoot();
         }
@@ -62,6 +80,19 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.S))
         {
             DropCactus();
+        }
+    }
+
+    public void GunCheck()
+    {
+        switch (currentGun)
+        {
+            case GunType.Normal:
+                fireRateReset = .15f;
+                break;
+            case GunType.Hotdog:
+                fireRateReset = .35f;
+                break;
         }
     }
 
@@ -89,28 +120,46 @@ public class Player : MonoBehaviour
 
     public void Shoot()
     {
-        Debug.Log("shooting");
-        //Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * shootingDistance, Color.yellow);
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, shootingDistance, layerMask))
+        if (fireRate <= 0)
         {
-            if (hit.collider.tag == "enemy")
+            Debug.Log("shooting");
+            //Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * shootingDistance, Color.yellow);
+            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, shootingDistance, layerMask))
             {
-                GameObject damageDecal = ObjectPool.SharedInstance.GetPooledObject();
-                if (damageDecal != null)
+                if (hit.collider.tag == "enemy")
                 {
-                    damageDecal.transform.position = hit.point;
-                    damageDecal.SetActive(true);
+                    GameObject damageDecal = ObjectPool.SharedInstance.GetPooledObject();
+                    if (damageDecal != null)
+                    {
+                        damageDecal.transform.position = hit.point;
+                        damageDecal.SetActive(true);
+                    }
+
+                    Debug.Log("hit");
                 }
-
-                Debug.Log("hit");
             }
-        }
-        else
-        {
-            Debug.Log("no hit");
-        }
+            else
+            {
+                Debug.Log("no hit");
+            }
 
+            if (currentGun != GunType.Normal)
+            {
+                if (specialBulletsRemaining > 1)
+                {
+                    specialBulletsRemaining -= 1;
+                }
+                else
+                {
+                    specialBulletsRemaining = 0;
+                    currentGun = GunType.Normal;
+                    GunCheck();
+                }
+            }
 
+            fireRate = fireRateReset;
+
+        }
     }
 
     public void SwapWeapon()
