@@ -39,10 +39,10 @@ public class Sc_GameManager : MonoBehaviour
         //***COMMENTED OUT SO SCRIPT WOULD COMPILE***
         currentRoundPointValue = currentRound * designerVal;
         //Debug.Log(currentRoundPointValue);
-        EnemiesToSpawn();
+        StartCoroutine(EnemiesToSpawn());
     }
 
-    public void EnemiesToSpawn()
+    IEnumerator EnemiesToSpawn()
     {
         int totalEnemySpawn;
 
@@ -52,9 +52,11 @@ public class Sc_GameManager : MonoBehaviour
 
         for (int i = 0; i < totalEnemySpawn; i++)
         {
+            yield return new WaitForSeconds(0.75f);
             //Debug.Log(totalEnemySpawn);
             StartCoroutine(ChooseSide());
         }
+        //EnemiesToSpawn();
     }
 
     IEnumerator AmountOfEnemies()
@@ -109,12 +111,11 @@ public class Sc_GameManager : MonoBehaviour
     {
         int chooseSide, spawnerVal;
         chooseSide = Random.Range(0, 2);
-        spawnerVal = Random.Range(0, 3);
 
-        yield return new WaitForSeconds(0.01f);
         //Debug.Log(chooseSide);
         if (chooseSide == 0)
         {
+            spawnerVal = Random.Range(0, spawnPoint1.Length);
             //Debug.Log("Hello Area 1");
             if (basicEnemiesToSpawn > 0)
             {
@@ -134,6 +135,7 @@ public class Sc_GameManager : MonoBehaviour
         }
         else
         {
+            spawnerVal = Random.Range(0, spawnPoint2.Length);
             //Debug.Log("Hello 2 Area");
             if (basicEnemiesToSpawn > 0)
             {
