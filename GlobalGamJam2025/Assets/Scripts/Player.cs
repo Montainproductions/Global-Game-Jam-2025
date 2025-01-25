@@ -20,6 +20,10 @@ public class Player : MonoBehaviour
     public LayerMask layerMask;
     public float shootingDistance;
 
+    public List<GameObject> pooledDamageEffects;
+    public GameObject damageEffect;
+    public int pooledDamageEffectCount;
+
     public enum GunType
     {
         Normal,
@@ -34,9 +38,31 @@ public class Player : MonoBehaviour
     public GameObject cactusDropPosition;
     public List<GameObject> cactusCache = new List<GameObject>();
 
+    public List<GameObject> pooledCacti;
+    public GameObject cactus;
+    public int pooledCactiCount;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+
+        GameObject damageFX;
+        for (int i = 0; i < pooledDamageEffectCount; i++)
+        {
+            damageFX = Instantiate(damageEffect);
+            damageFX.SetActive(false);
+            pooledDamageEffects.Add(damageFX);
+        }
+
+        GameObject cactusClones;
+        for (int i = 0; i < pooledCactiCount; i++)
+        {
+            cactusClones = Instantiate(cactus);
+            cactusClones.SetActive(false);
+            pooledCacti.Add(cactusClones);
+        }
+
+
         //DEBUG - Delete Later
         if (inflator)
         {
@@ -128,12 +154,17 @@ public class Player : MonoBehaviour
             {
                 if (hit.collider.tag == "enemy")
                 {
-                    GameObject damageDecal = ObjectPool.SharedInstance.GetPooledObject();
-                    if (damageDecal != null)
+                    for (int i = 0; i < pooledDamageEffectCount; i++)
                     {
-                        damageDecal.transform.position = hit.point;
-                        damageDecal.SetActive(true);
+                        if (!pooledDamageEffects[i].activeInHierarchy)
+                        {
+                            pooledDamageEffects[i].transform.position = hit.point;
+                            pooledDamageEffects[i].SetActive(true);
+                            break;
+                        }
                     }
+
+
 
                     Debug.Log("hit");
                 }
