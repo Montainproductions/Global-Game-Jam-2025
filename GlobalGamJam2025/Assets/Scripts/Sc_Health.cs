@@ -2,27 +2,27 @@ using UnityEngine;
 
 public class Sc_Health : MonoBehaviour
 {
-    [SerializeField]
-    private float maxHealth;
-
-    private float currentHealth;
-
-    [SerializeField]
-    private GameObject gameObject;
+    public float startingHealth;
+    public float maxHealth;
+    public float currentHealth;
 
     void Start()
     {
-        currentHealth = maxHealth;
+        currentHealth = startingHealth;
     }
 
-    public void UpdateHealth(float newHealth){
-        if(currentHealth + newHealth > maxHealth) {currentHealth = maxHealth; return;}
-
-        currentHealth += newHealth;
-
+    public void UpdateHealth(){
+       
         if(currentHealth < 1){
             currentHealth = 0;
-            Destroy(gameObject);
+            Destroy(this.gameObject);
+
+            //death animation
+        }
+
+        if (currentHealth >= maxHealth)
+        {
+            //inflate
         }
     }
 }

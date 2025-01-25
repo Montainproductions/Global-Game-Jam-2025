@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     public TextMeshProUGUI debugGunText;
 
     [Header("Shooting")]
+    public int damage;
     public float fireRateReset;
     public float fireRate;
     public int specialBulletsRemaining;
@@ -165,6 +166,16 @@ public class Player : MonoBehaviour
                     }
 
 
+                    if (!inflator)
+                    {
+                        hit.collider.GetComponent<Sc_Health>().currentHealth -= damage;
+                    }
+                    else
+                    {
+                        hit.collider.GetComponent<Sc_Health>().currentHealth += damage;
+                    }
+
+                    hit.collider.GetComponent<Sc_Health>().UpdateHealth();
 
                     Debug.Log("hit");
                 }

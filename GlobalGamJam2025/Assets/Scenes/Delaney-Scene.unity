@@ -182,8 +182,6 @@ GameObject:
   m_Component:
   - component: {fileID: 107613823}
   - component: {fileID: 107613819}
-  - component: {fileID: 107613825}
-  - component: {fileID: 107613826}
   - component: {fileID: 107613822}
   - component: {fileID: 107613821}
   - component: {fileID: 107613820}
@@ -219,6 +217,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 51
   shootingDistance: 50
+  pooledDamageEffects: []
+  damageEffect: {fileID: 7093598927039982665, guid: eaf88101d128ac9419d8bb847d57ed9c, type: 3}
+  pooledDamageEffectCount: 20
+  currentGun: 0
   cantDrop: 0
   cactusDropPosition: {fileID: 63529299}
   cactusCache:
@@ -228,6 +230,9 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  pooledCacti: []
+  cactus: {fileID: 0}
+  pooledCactiCount: 5
 --- !u!65 &107613820
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -345,36 +350,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &107613825
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 107613818}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e262058d532b514a837277a77b51b36, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pooledObjects: []
-  objectToPool: {fileID: 7093598927039982665, guid: eaf88101d128ac9419d8bb847d57ed9c, type: 3}
-  amountToPool: 20
---- !u!114 &107613826
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 107613818}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e262058d532b514a837277a77b51b36, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pooledObjects: []
-  objectToPool: {fileID: 2898119176645716529, guid: eefb1b48d01aa5e4fa27bb7b4ee70436, type: 3}
-  amountToPool: 5
 --- !u!1 &108613146
 GameObject:
   m_ObjectHideFlags: 0
