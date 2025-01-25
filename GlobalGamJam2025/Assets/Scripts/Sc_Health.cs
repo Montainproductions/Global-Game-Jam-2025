@@ -17,11 +17,11 @@ public class Sc_Health : MonoBehaviour
 
     public void UpdateHealth(float newHealth){
         if(currentHealth + newHealth > maxHealth) {currentHealth = maxHealth; return;}
-        
-        health += newHealth;
 
-        if(health < 1){
-            health = 0;
+        currentHealth += newHealth;
+
+        if(currentHealth < 1){
+            currentHealth = 0;
             Destroy(gameObject);
         }
     }
