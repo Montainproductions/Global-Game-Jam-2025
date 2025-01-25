@@ -8,14 +8,17 @@ public class Sc_GameManager : MonoBehaviour
     
     private int basicEnemiesToSpawn = 0, midEnemiesToSpawn = 0, largeEnemiesToSpawn = 0;
 
-    [SerializeField] //5, 15, 65
+    [SerializeField] //5, 15, 45
     private int currentRoundPointValue, basicEnemyPointValue, midEnemyPointValue, largeEnemyPointValue;
 
     [SerializeField]
-    private GameObject baseEnemy;
+    private int designerVal;
 
     [SerializeField]
-    private GameObject[] spawnPoint1, spawnPoint2;
+    private GameObject baseEnemy, midEnemy, largeEnemy;
+
+    [SerializeField]
+    private Vector3[] spawnPoint1, spawnPoint2;
 
     // Start is called before the first frame update
     void Start()
@@ -39,6 +42,19 @@ public class Sc_GameManager : MonoBehaviour
     }
 
     public void EnemiesToSpawn(){
+        int totalEnemySpawn;
+
+        AmountOfEnemies();
+
+        totalEnemySpawn = basicEnemiesToSpawn + midEnemiesToSpawn + largeEnemiesToSpawn;
+
+        for(int i = 0; i < totalEnemySpawn; i++) {
+            ChooseSide();
+        }
+        Debug.Log(basicEnemiesToSpawn + midEnemiesToSpawn + largeEnemiesToSpawn);
+    }
+
+    public void AmountOfEnemies(){
         int returnedRange;
         while(currentRoundPointValue > basicEnemyPointValue){
             returnedRange = Random.Range(0,100);
@@ -64,8 +80,37 @@ public class Sc_GameManager : MonoBehaviour
         }
     }
 
-    public void ChooseSide(){
-        
-    }
+    IEnumerator ChooseSide(){
+        int chooseSide, spawnerVal;
+        chooseSide = Random.Range(0,2);
+        spawnerVal = Random.Range(0,3);
 
+        yield return new WaitForSeconds(chooseSide);
+
+        if(chooseSide == 0){
+            if(basicEnemiesToSpawn > 0){
+                Instantiate(baseEnemy, spawnPoint1[spawnerVal], Quaternion.identity);
+                basicEnemiesToSpawn--;
+            }else if(midEnemiesToSpawn > 0){
+                Instantiate(midEnemy, spawnPoint1[spawnerVal], Quaternion.identity);
+                midEnemiesToSpawn--;
+            }else if(largeEnemiesToSpawn > 0){
+                Instantiate(largeEnemy, spawnPoint1[spawnerVal], Quaternion.identity);
+                largeEnemiesToSpawn--;
+            }
+        }else{
+            if(basicEnemiesToSpawn > 0){
+                Instantiate(baseEnemy, spawnPoint2[spawnerVal], Quaternion.identity);
+                basicEnemiesToSpawn--;
+            }else if(midEnemiesToSpawn > 0){
+                Instantiate(midEnemy, spawnPoint2[spawnerVal], Quaternion.identity);
+                midEnemiesToSpawn--;
+            }else if(largeEnemiesToSpawn > 0){
+                Instantiate(largeEnemy, spawnPoint2[spawnerVal], Quaternion.identity);
+                largeEnemiesToSpawn--;
+            }
+        }
+
+        yield return null;
+    }
 }
