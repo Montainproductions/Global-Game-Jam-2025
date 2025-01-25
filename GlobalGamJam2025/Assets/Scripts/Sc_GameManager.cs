@@ -30,7 +30,7 @@ public class Sc_GameManager : MonoBehaviour
     }
 
     public void NewRoundPoints(){
-        currentRound++
+        currentRound++;
         currentRoundPointValue = currentRound * designerVal
         EnemiesToSpawn();
     }
@@ -42,13 +42,18 @@ public class Sc_GameManager : MonoBehaviour
             if(currentRoundPointValue > largeEnemyPointValue){
                 if(returnedRange < 70){
                     basicEnemiesToSpawn++;
+                    currentRoundPointValue = currentRoundPointValue -
                 }else if(returnedRange > 70 && returnedRange < 90){
-
+                    midEnemiesToSpawn++;
                 }else{
-
+                    largeEnemiesToSpawn++;
                 }
             }else if(currentRoundPointValue > midEnemyPointValue){
-
+                if(returnedRange < 80){
+                    basicEnemiesToSpawn++;
+                }else{
+                    midEnemiesToSpawn++;
+                }
             }
         }
     }
