@@ -12,6 +12,9 @@ public class Sc_GameManager : MonoBehaviour
     private int currentRoundPointValue, basicEnemyPointValue, midEnemyPointValue, largeEnemyPointValue;
 
     [SerializeField]
+    private int designerVal;
+
+    [SerializeField]
     private GameObject baseEnemy;
 
     [SerializeField]
@@ -31,7 +34,7 @@ public class Sc_GameManager : MonoBehaviour
 
     public void NewRoundPoints(){
         currentRound++;
-        currentRoundPointValue = currentRound * designerVal
+        currentRoundPointValue = currentRound * designerVal;
         EnemiesToSpawn();
     }
 
@@ -42,20 +45,29 @@ public class Sc_GameManager : MonoBehaviour
             if(currentRoundPointValue > largeEnemyPointValue){
                 if(returnedRange < 70){
                     basicEnemiesToSpawn++;
-                    currentRoundPointValue = currentRoundPointValue -
+                    currentRoundPointValue -= basicEnemyPointValue;
                 }else if(returnedRange > 70 && returnedRange < 90){
                     midEnemiesToSpawn++;
+                    currentRoundPointValue -= midEnemyPointValue;
                 }else{
                     largeEnemiesToSpawn++;
+                    currentRoundPointValue -= largeEnemyPointValue;
                 }
             }else if(currentRoundPointValue > midEnemyPointValue){
                 if(returnedRange < 80){
                     basicEnemiesToSpawn++;
+                    currentRoundPointValue -= basicEnemyPointValue;
                 }else{
                     midEnemiesToSpawn++;
+                    currentRoundPointValue -= midEnemyPointValue;
                 }
+            }else{
+                basicEnemiesToSpawn++;
+                currentRoundPointValue -= basicEnemyPointValue;
             }
         }
+
+        Debug.Log(basicEnemiesToSpawn + midEnemiesToSpawn + largeEnemiesToSpawn);
     }
 
     public void ChooseSide(){
