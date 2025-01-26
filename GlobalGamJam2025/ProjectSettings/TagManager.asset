@@ -11,6 +11,7 @@ TagManager:
   - item_cactus1
   - item_hotdog
   - item_pretzal
+  - item_Toothpick
   layers:
   - Default
   - TransparentFX
