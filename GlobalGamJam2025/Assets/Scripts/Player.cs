@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+
+    public Animator animator;
+
     [Header("Player Movement")]
     public int currentHP;
     public int maxHP;
@@ -36,7 +39,8 @@ public class Player : MonoBehaviour
     public enum GunType
     {
         Normal,
-        Hotdog
+        Hotdog,
+        Icecream,
     }
 
     [SerializeField] public GunType currentGun;
@@ -56,7 +60,7 @@ public class Player : MonoBehaviour
     {
         currentHP = maxHP;
 
-        GameObject damageFX;
+       /* GameObject damageFX;
         for (int i = 0; i < pooledDamageEffectCount; i++)
         {
             damageFX = Instantiate(damageEffect);
@@ -70,7 +74,7 @@ public class Player : MonoBehaviour
             cactusClones = Instantiate(cactus);
             cactusClones.SetActive(false);
             pooledCacti.Add(cactusClones);
-        }
+        }*/
 
 
         GunCheck();
@@ -103,18 +107,38 @@ public class Player : MonoBehaviour
         {
             MoveLeft();
         }
+        else
+        {
+            animator.SetBool("strafeLeft", false);
+        }
 
         if (Input.GetKey(KeyCode.D))
         {
             MoveRight();
+        }
+        else
+        {
+            animator.SetBool("strafeRight", false);
         }
 
         if (Input.GetKey(KeyCode.Space))
         {
             Shoot();
         }
+        else
+        {
+            if (fireRate <= 0 && airRate <= 0){
+                animator.SetBool("isShooting", false);
+            }
+        }
 
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.D))
+        {
+            animator.SetBool("strafeLeft", false);
+            animator.SetBool("strafeRight", false);
+        }
+
+            if (Input.GetKeyDown(KeyCode.W))
         {
             SwapWeapon();
         }
@@ -138,6 +162,11 @@ public class Player : MonoBehaviour
                 specialBulletsRemaining = 20;
                 damage = 3;
                 break;
+            case GunType.Icecream:
+                fireRateReset = .25f;
+                specialBulletsRemaining = 20;
+                damage = 3;
+                break;
         }
 
         if (specialBulletsRemaining > 0)
@@ -158,6 +187,12 @@ public class Player : MonoBehaviour
         if (transform.position.x > -maxX)
         {
             curX -= moveSpeed * Time.deltaTime;
+            animator.SetBool("strafeLeft", true);
+            animator.SetBool("strafeRight", false);
+        }
+        else
+        {
+            animator.SetBool("strafeLeft", false);
         }
 
         transform.position = new Vector3(curX, transform.position.y, transform.position.z);
@@ -169,6 +204,12 @@ public class Player : MonoBehaviour
         if (transform.position.x < maxX)
         {
             curX += moveSpeed * Time.deltaTime;
+            animator.SetBool("strafeRight", true);
+            animator.SetBool("strafeLeft", false);
+        }
+        else
+        {
+            animator.SetBool("strafeRight", false);
         }
 
         transform.position = new Vector3(curX, transform.position.y, transform.position.z);
@@ -181,6 +222,8 @@ public class Player : MonoBehaviour
         {
             if (fireRate <= 0)
             {
+                animator.SetBool("isShooting", true);
+
                 Debug.Log("shooting");
 
                 if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, shootingDistance, layerMask))
@@ -244,10 +287,14 @@ public class Player : MonoBehaviour
                 fireRate = fireRateReset;
 
             }
+
         } else {
 
             if (airRate <= 0)
             {
+
+                animator.SetBool("isShooting", true);
+
                 if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, shootingDistance, layerMask))
                 {
                     if (hit.collider.tag == "enemy")
@@ -337,6 +384,8 @@ public class Player : MonoBehaviour
             currentGun = GunType.Hotdog;
             Destroy(other.gameObject);
             GunCheck();
+
+            animator.SetBool("grabItem", true);
         }
     }
 }
