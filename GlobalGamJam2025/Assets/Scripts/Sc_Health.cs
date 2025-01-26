@@ -31,6 +31,13 @@ public class Sc_Health : MonoBehaviour
     public TextMeshProUGUI inflationText;
     public EnemyWaveSpawner enemyWaveSpawner;
 
+    [SerializeField]
+    private AudioSource enemyAudioSource;
+
+    [SerializeField]
+    private AudioClip[] audioClips;
+    private int audioToPlay;
+    
     public bool dead;
 
     private void OnEnable()
@@ -96,6 +103,8 @@ public class Sc_Health : MonoBehaviour
         {
             if (dead)
             {
+                audioToPlay = Random.Range(0, audioClips.Length);
+                Sc_Audio.instance.PlayPlayerAudioOneShot(audioClips[audioToPlay], enemyAudioSource);
                 this.GetComponent<BoxCollider>().enabled = false;
                 if (deathCounter > 0)
                 {

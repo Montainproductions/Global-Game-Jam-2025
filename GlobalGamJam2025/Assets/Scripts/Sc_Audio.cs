@@ -1,12 +1,11 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class Sc_Audio : MonoBehaviour
 {
     public static Sc_Audio instance { get; private set; }
 
-    [SerializeField]
-    private AudioSource playerAudio;
     private void Awake()
     {
         // If there is an instance, and it's not me, delete myself.
@@ -21,16 +20,16 @@ public class Sc_Audio : MonoBehaviour
         }
     }
 
-    public void PlayPlayerAudioOneShot(AudioClip clip)
+    public void PlayPlayerAudioOneShot(AudioClip clip, AudioSource audioSource)
     {
-        if (!playerAudio.isPlaying)
+        if (!audioSource.isPlaying)
         {
-            playerAudio.PlayOneShot(clip);
+            audioSource.PlayOneShot(clip);
         }
     }
 
-    public void StopPlayerAudio()
+    public void StopPlayerAudio(AudioSource audioSource)
     {
-        playerAudio.Stop();
+        audioSource.Stop();
     }
 }

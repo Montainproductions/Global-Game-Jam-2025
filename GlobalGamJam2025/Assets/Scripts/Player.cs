@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
 {
     [SerializeField]
     private AudioClip[] playerClips;
+    [SerializeField]
+    private AudioSource playerSource;
 
     public Animator animator;
 
@@ -100,22 +102,22 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey(KeyCode.A))
         {
-            Sc_Audio.instance.PlayPlayerAudioOneShot(playerClips[5]);
+            Sc_Audio.instance.PlayPlayerAudioOneShot(playerClips[5], playerSource);
             MoveLeft();
         }
         else if (Input.GetKeyUp(KeyCode.A))
         {
-            Sc_Audio.instance.StopPlayerAudio();
+            Sc_Audio.instance.StopPlayerAudio(playerSource);
             animator.SetBool("strafeLeft", false);
         }
 
         if (Input.GetKey(KeyCode.D))
         {
-            Sc_Audio.instance.PlayPlayerAudioOneShot(playerClips[5]);
+            Sc_Audio.instance.PlayPlayerAudioOneShot(playerClips[5], playerSource);
             MoveRight();
         }else if(Input.GetKeyUp(KeyCode.D))
         {
-            Sc_Audio.instance.StopPlayerAudio();
+            Sc_Audio.instance.StopPlayerAudio(playerSource);
             animator.SetBool("strafeRight", false);
         }
 
@@ -220,11 +222,11 @@ public class Player : MonoBehaviour
                 Debug.Log("shooting");
                 if (currentGun == GunType.Normal)
                 {
-                    Sc_Audio.instance.PlayPlayerAudioOneShot(playerClips[0]);
+                    Sc_Audio.instance.PlayPlayerAudioOneShot(playerClips[0], playerSource);
                 }
                 else if (currentGun == GunType.Hotdog)
                 {
-                    Sc_Audio.instance.PlayPlayerAudioOneShot(playerClips[1]);
+                    Sc_Audio.instance.PlayPlayerAudioOneShot(playerClips[1], playerSource);
                 }
                 if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, shootingDistance, layerMask))
                 {
@@ -264,7 +266,7 @@ public class Player : MonoBehaviour
 
                     if (currentGun != GunType.Normal)
                     {
-                        Sc_Audio.instance.PlayPlayerAudioOneShot(playerClips[1]);
+                        Sc_Audio.instance.PlayPlayerAudioOneShot(playerClips[1], playerSource);
                         if (specialBulletsRemaining > 1)
                         {
                             specialBulletsRemaining -= 1;
@@ -282,7 +284,7 @@ public class Player : MonoBehaviour
         }else{
             if (airRate <= 0)
             {
-                Sc_Audio.instance.PlayPlayerAudioOneShot(playerClips[2]);
+                Sc_Audio.instance.PlayPlayerAudioOneShot(playerClips[2], playerSource);
                 animator.SetBool("isShooting", true);
 
                 if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, shootingDistance, layerMask))
@@ -326,7 +328,7 @@ public class Player : MonoBehaviour
         {
             if (cactusCache[0] != null)
             {
-                Sc_Audio.instance.PlayPlayerAudioOneShot(playerClips[3]);
+                Sc_Audio.instance.PlayPlayerAudioOneShot(playerClips[3], playerSource);
                 Instantiate(cactusCache[0], cactusDropPosition.transform.position, Quaternion.identity);
 
                 cactusCache[0] = null;
@@ -341,7 +343,7 @@ public class Player : MonoBehaviour
             }
             else
             {
-                Sc_Audio.instance.PlayPlayerAudioOneShot(playerClips[4]);
+                Sc_Audio.instance.PlayPlayerAudioOneShot(playerClips[4], playerSource);
                 Debug.Log("no cactus");
             }
         }
