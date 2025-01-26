@@ -20,6 +20,28 @@ public class Sc_GameManager : MonoBehaviour
     [SerializeField]
     private Transform[] spawnPoint1, spawnPoint2;
 
+    [SerializeField]
+    private AudioClip[] levelClips;
+
+    [SerializeField]
+    private AudioSource gameAudioSource, playerAudioSource;
+
+    public static Sc_GameManager Instance { get; private set; }
+
+    private void Awake()
+    {
+        // Check if an instance already exists
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject); // Destroy duplicate instance
+            return;
+        }
+
+        // Set the instance and make it persistent across scenes
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -156,5 +178,38 @@ public class Sc_GameManager : MonoBehaviour
         }
 
         yield return null;
+    }
+
+    public void PlayGameAudioOneShot(AudioClip clip)
+    {
+        if (!gameAudioSource.isPlaying)
+        {
+            gameAudioSource.PlayOneShot(clip);
+        }
+    }
+
+    public void PlayPlayerAudioOneShot(AudioClip clip)
+    {
+        if (!playerAudioSource.isPlaying)
+        {
+            playerAudioSource.PlayOneShot(clip);
+        }
+    }
+
+    public void StopGameAudio()
+    {
+        if (gameAudioSource.isPlaying)
+        {
+            gameAudioSource.Stop();
+        }
+    }
+
+    public void StopPlayerAudio()
+    {
+        if (playerAudioSource.isPlaying)
+        {
+            Debug.Log("Stopping");
+            playerAudioSource.Stop();
+        }
     }
 }
