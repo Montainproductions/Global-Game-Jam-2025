@@ -16,7 +16,8 @@ public class Player : MonoBehaviour
     public float curX;
     public float moveSpeed;
     public bool inflator;
-    public TextMeshProUGUI debugGunText;
+    public Image blenderImage;
+    public List<Sprite> blenderSprites = new List<Sprite>();
     public Image specialBulletImage;
     public TextMeshProUGUI specialBulletText;
 
@@ -48,44 +49,36 @@ public class Player : MonoBehaviour
 
     [Header("Cactus")]
     public bool cantDrop;
+    public List<GameObject> cactai = new List<GameObject>();
     public GameObject cactusDropPosition;
     public List<GameObject> cactusCache = new List<GameObject>();
+    public List<Image> cactusImages = new List<Image>();
+    public List<Sprite> cactusSprites = new List<Sprite>();
 
-    public List<GameObject> pooledCacti;
-    public GameObject cactus;
-    public int pooledCactiCount;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         currentHP = maxHP;
 
-       /* GameObject damageFX;
-        for (int i = 0; i < pooledDamageEffectCount; i++)
-        {
-            damageFX = Instantiate(damageEffect);
-            damageFX.SetActive(false);
-            pooledDamageEffects.Add(damageFX);
-        }
+        /* GameObject damageFX;
+         for (int i = 0; i < pooledDamageEffectCount; i++)
+         {
+             damageFX = Instantiate(damageEffect);
+             damageFX.SetActive(false);
+             pooledDamageEffects.Add(damageFX);
+         }
 
-        GameObject cactusClones;
-        for (int i = 0; i < pooledCactiCount; i++)
-        {
-            cactusClones = Instantiate(cactus);
-            cactusClones.SetActive(false);
-            pooledCacti.Add(cactusClones);
-        }*/
-
-
+         */
         GunCheck();
 
         if (inflator)
         {
-            debugGunText.text = "inflator";
+            blenderImage.sprite = blenderSprites[1];
         }
         else
         {
-            debugGunText.text = "bullets";
+            blenderImage.sprite = blenderSprites[0];
         }
     }
 
@@ -127,7 +120,8 @@ public class Player : MonoBehaviour
         }
         else
         {
-            if (fireRate <= 0 && airRate <= 0){
+            if (fireRate <= 0 && airRate <= 0)
+            {
                 animator.SetBool("isShooting", false);
             }
         }
@@ -138,7 +132,7 @@ public class Player : MonoBehaviour
             animator.SetBool("strafeRight", false);
         }
 
-            if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.W))
         {
             SwapWeapon();
         }
@@ -288,7 +282,9 @@ public class Player : MonoBehaviour
 
             }
 
-        } else {
+        }
+        else
+        {
 
             if (airRate <= 0)
             {
@@ -315,7 +311,7 @@ public class Player : MonoBehaviour
         if (inflator)
         {
             inflator = false;
-            debugGunText.text = "bullets";
+            blenderImage.sprite = blenderSprites[0];
             if (specialBulletsRemaining > 0)
             {
                 specialBulletImage.gameObject.SetActive(true);
@@ -326,7 +322,7 @@ public class Player : MonoBehaviour
         else
         {
             inflator = true;
-            debugGunText.text = "inflator";
+            blenderImage.sprite = blenderSprites[1];
             specialBulletImage.gameObject.SetActive(false);
 
         }
@@ -338,21 +334,17 @@ public class Player : MonoBehaviour
         {
             if (cactusCache[0] != null)
             {
-                cactusCache[0].transform.position = cactusDropPosition.transform.position;
+                Instantiate(cactusCache[0], cactusDropPosition.transform.position, Quaternion.identity);
+
                 cactusCache[0] = null;
 
-                for (int i = 1; i < cactusCache.Count; i++)
+                for (int i = 0; i < cactusCache.Count - 1; i++)
                 {
-                    if (cactusCache[i] != null)
-                    {
-                        cactusCache[i - 1] = cactusCache[i];
-                        cactusCache[i] = null;
-                    }
-                    else
-                    {
-                        return;
-                    }
+                    cactusCache[i] = cactusCache[i + 1];
                 }
+                cactusCache[4] = null;
+
+                CactusCheck();
             }
             else
             {
@@ -369,23 +361,103 @@ public class Player : MonoBehaviour
     {
         if (other.gameObject.tag == "cactus")
         {
-            cantDrop = false;
+            cantDrop = true;
         }
         else
         {
-            cantDrop = true;
+            cantDrop = false;
         }
     }
 
+
+
     public void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "hotdog")
+        if (other.gameObject.tag == "item_hotdog")
         {
             currentGun = GunType.Hotdog;
             Destroy(other.gameObject);
             GunCheck();
 
             animator.SetBool("grabItem", true);
+            Destroy(other.gameObject);
+        }
+
+
+        if (other.gameObject.tag == "item_cactus0")
+        {
+
+            for (int i = 0; i < cactusCache.Count; i++)
+            {
+                if (cactusCache[i] == null)
+                {
+                    if (i > 0)
+                    {
+                        for (int j = cactusCache.Count - 1; j > 0; j--)
+                        {
+                            cactusCache[j] = cactusCache[j - 1];
+                        }
+                    }
+
+                    cactusCache[0] = cactai[0];
+                    animator.SetBool("grabItem", true);
+                    Destroy(other.gameObject);
+                    CactusCheck();
+                    break;
+                }
+            }
+        }
+
+        if (other.gameObject.tag == "item_cactus1")
+        {
+
+            for (int i = 0; i < cactusCache.Count; i++)
+            {
+                if (cactusCache[i] == null)
+                {
+                    if (i > 0)
+                    {
+                        for (int j = cactusCache.Count - 1; j > 0; j--)
+                        {
+                            cactusCache[j] = cactusCache[j - 1];
+                        }
+                    }
+
+                    cactusCache[0] = cactai[1];
+                    animator.SetBool("grabItem", true);
+                    Destroy(other.gameObject);
+                    CactusCheck();
+                    break;
+                }
+            }
+        }
+    }
+
+    public void CactusCheck()
+    {
+        for (int i = 0; i < cactusCache.Count; i++)
+        {
+            if (cactusCache[i] == cactai[0])
+            {
+                cactusImages[i].sprite = cactusSprites[0];
+                cactusImages[i].gameObject.SetActive(true);
+
+            }
+
+            else if (cactusCache[i] == cactai[1])
+            {
+                cactusImages[i].sprite = cactusSprites[1];
+                cactusImages[i].gameObject.SetActive(true);
+
+            }
+
+            else if (cactusCache[i] == null)
+            {
+                cactusImages[i].gameObject.SetActive(false);
+
+            }
         }
     }
 }
+
+

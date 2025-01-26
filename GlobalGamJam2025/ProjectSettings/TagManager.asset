@@ -7,7 +7,9 @@ TagManager:
   - cactus
   - enemy
   - pickup
-  - hotdog
+  - item_cactus0
+  - item_cactus1
+  - item_hotdog
   layers:
   - Default
   - TransparentFX
