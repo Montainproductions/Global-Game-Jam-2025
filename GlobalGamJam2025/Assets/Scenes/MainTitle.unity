@@ -758,7 +758,11 @@ GameObject:
   - component: {fileID: 1223334341}
   - component: {fileID: 1223334340}
   m_Layer: 0
+<<<<<<< Updated upstream
   m_Name: cameraRenderingPlane
+=======
+  m_Name: Plane
+>>>>>>> Stashed changes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -809,7 +813,11 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
+<<<<<<< Updated upstream
   - {fileID: 2100000, guid: 5d60146a61b58194a97abfb95da3cffd, type: 2}
+=======
+  - {fileID: 2100000, guid: 4266ed5b16569d64eb19a9ea89722182, type: 2}
+>>>>>>> Stashed changes
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -863,7 +871,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1240621314}
+<<<<<<< Updated upstream
   - component: {fileID: 1240621315}
+=======
+>>>>>>> Stashed changes
   m_Layer: 0
   m_Name: titlescreenManager
   m_TagString: Untagged
@@ -886,6 +897,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< Updated upstream
 --- !u!114 &1240621315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -903,6 +915,8 @@ MonoBehaviour:
   adGone: 0
   adTimer: 0
   adImage: {fileID: 0}
+=======
+>>>>>>> Stashed changes
 --- !u!1 &1242239382
 GameObject:
   m_ObjectHideFlags: 0
@@ -1090,7 +1104,11 @@ Camera:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingPath: -1
+<<<<<<< Updated upstream
   m_TargetTexture: {fileID: 8400000, guid: 8db24946fa10b3240828f0387319242b, type: 2}
+=======
+  m_TargetTexture: {fileID: 8400000, guid: f0974771d7d66ea4690376be4178e1e5, type: 2}
+>>>>>>> Stashed changes
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
