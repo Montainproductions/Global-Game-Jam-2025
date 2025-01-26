@@ -66,8 +66,8 @@ Material:
     - _Inflate_Amount: 0
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _ThinFilmScale: 1
+    - _ThinFilmScale: 0.59
     m_Colors:
-    - _BubbleTint: {r: 0.47058824, g: 0.66698205, b: 0.9529412, a: 0}
+    - _BubbleTint: {r: 0.042452812, g: 0.77025056, b: 1, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

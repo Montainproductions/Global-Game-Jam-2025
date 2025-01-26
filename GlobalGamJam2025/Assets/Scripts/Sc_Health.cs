@@ -6,6 +6,8 @@ using TMPro;
 public class Sc_Health : MonoBehaviour
 {
     public Animator animator;
+    public float debuffTimer;
+    public float speedModifier;
     public float currentSpeed;
     public float minZ;
     public float deathCounter;
@@ -25,6 +27,7 @@ public class Sc_Health : MonoBehaviour
 
  void Start()
     {
+        this.GetComponent<BoxCollider>().enabled = true;
         dead = false;
         animator.SetBool("isDead", false);
         deathCounter = deathReset;
@@ -34,12 +37,21 @@ public class Sc_Health : MonoBehaviour
 
     private void Update()
     {
+        if (debuffTimer > 0)
+        {
+            debuffTimer -= Time.deltaTime;
+        }
+        else
+        {
+            speedModifier = 1;
+        }
+
         if (currentHealth > 0)
         {
             if (transform.position.z > minZ)
             {
                 animator.SetBool("isWalking", true);
-                transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - currentSpeed * Time.deltaTime);
+                transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - currentSpeed * speedModifier * Time.deltaTime);
             }
             else
             {
@@ -51,9 +63,9 @@ public class Sc_Health : MonoBehaviour
         {
             if (dead)
             {
+                this.GetComponent<BoxCollider>().enabled = false;
                 if (deathCounter > 0)
                 {
-                    animator.SetBool("isDead", true);
                     deathCounter -= Time.deltaTime;
                 }
                 else

@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
     [Header("Player Movement")]
+    public int currentHP;
+    public int maxHP;
     public float maxX;
     public float curX;
     public float moveSpeed;
@@ -52,6 +54,7 @@ public class Player : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        currentHP = maxHP;
 
         GameObject damageFX;
         for (int i = 0; i < pooledDamageEffectCount; i++)
