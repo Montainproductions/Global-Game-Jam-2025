@@ -8,9 +8,7 @@ using UnityEngine.SceneManagement;
 
 public class pressStart : MonoBehaviour
 {
-
-    public Canvas titleCanvas;
-    public Image popUpAdd;
+    public bool adUp;
     public bool adGone;
     public float adTimer;
     public Image adImage;
@@ -24,29 +22,33 @@ public class pressStart : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (adGone == false && adTimer > 0)
+        if (!adUp && adTimer > 0)
         {
             adTimer -= Time.deltaTime;
         }
         else
         {
-            adImage.gameObject.SetActive(true);
-
-            if (Input.GetKey(KeyCode.Space))
-            {
-                if (!adGone)
-                {
-                    adGone = true;
-                    adImage.gameObject.SetActive(false);
-                }
-                else
-                {
-                    Debug.Log(" start");
-                    //startgame
-                }
-            }
+            adUp = true;
         }
 
-        
+        if (adUp && !adGone)
+        {
+            adImage.gameObject.SetActive(true);
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                adGone = true;
+            }
+        }
+        else
+        {
+            adImage.gameObject.SetActive(false);
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                SceneManager.LoadScene("Delaney-Scene");
+            }
+        }
     }
 }
+

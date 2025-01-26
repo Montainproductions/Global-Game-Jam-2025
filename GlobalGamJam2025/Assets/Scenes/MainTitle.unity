@@ -176,7 +176,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 17ccd6d45db2f2e4f88c2fe371512402, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bda459ac383b07f48b90484498c61a40, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -319,7 +319,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c7a9dd60a455ddd49b35ab1def9d2cd1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b3f65e2a87d9c3244901ec4c749d8dee, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -394,7 +394,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: bab3e3d193956b94ab8b4265f477541d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a511084f0d87428428aae2788879a751, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -727,7 +727,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b5229f55fb87ec14ca1ae5f1719ca6a6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fe4c7caff6eab954c9894aa2d5a4d463, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -758,11 +758,7 @@ GameObject:
   - component: {fileID: 1223334341}
   - component: {fileID: 1223334340}
   m_Layer: 0
-<<<<<<< Updated upstream
   m_Name: cameraRenderingPlane
-=======
-  m_Name: Plane
->>>>>>> Stashed changes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -813,11 +809,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-<<<<<<< Updated upstream
-  - {fileID: 2100000, guid: 5d60146a61b58194a97abfb95da3cffd, type: 2}
-=======
-  - {fileID: 2100000, guid: 4266ed5b16569d64eb19a9ea89722182, type: 2}
->>>>>>> Stashed changes
+  - {fileID: 2100000, guid: a2195030a6630f546a35c6efdd418a3c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -856,8 +848,8 @@ Transform:
   m_GameObject: {fileID: 1223334339}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0.7071068, w: 0}
-  m_LocalPosition: {x: 0, y: 1.5, z: 0}
-  m_LocalScale: {x: 1.92, y: 1.08, z: 1}
+  m_LocalPosition: {x: -2.15, y: 1.4, z: 0}
+  m_LocalScale: {x: 1.275, y: 1, z: 0.75}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -871,10 +863,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1240621314}
-<<<<<<< Updated upstream
   - component: {fileID: 1240621315}
-=======
->>>>>>> Stashed changes
   m_Layer: 0
   m_Name: titlescreenManager
   m_TagString: Untagged
@@ -897,7 +886,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-<<<<<<< Updated upstream
 --- !u!114 &1240621315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -915,8 +903,6 @@ MonoBehaviour:
   adGone: 0
   adTimer: 0
   adImage: {fileID: 0}
-=======
->>>>>>> Stashed changes
 --- !u!1 &1242239382
 GameObject:
   m_ObjectHideFlags: 0
@@ -974,7 +960,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 8809cc88f6ce93a41a79ba8cbfb3f5c2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 131c92cdc85f51046af942215ce02b6e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1104,11 +1090,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingPath: -1
-<<<<<<< Updated upstream
   m_TargetTexture: {fileID: 8400000, guid: 8db24946fa10b3240828f0387319242b, type: 2}
-=======
-  m_TargetTexture: {fileID: 8400000, guid: f0974771d7d66ea4690376be4178e1e5, type: 2}
->>>>>>> Stashed changes
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -1127,7 +1109,7 @@ Transform:
   m_GameObject: {fileID: 1244359451}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1637.05, y: 392.86914, z: 902}
+  m_LocalPosition: {x: 1636.123, y: 392.86914, z: 902}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1190,7 +1172,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 2d6bda34724ec3442bf22a8110dd448f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c6d8885429acc5d45aefeb675b934437, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1265,7 +1247,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 860946096296e4d4288b9a3f1d88009e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d71a761fdaaf1d54295f56a484020fff, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1340,7 +1322,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 417910db929ea324ba8b255489dd46e2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ab51fc71e4881bf478838fd98771c1a2, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1427,7 +1409,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 1
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 1244359454}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -1494,7 +1476,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -200, y: 15}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1951960216
