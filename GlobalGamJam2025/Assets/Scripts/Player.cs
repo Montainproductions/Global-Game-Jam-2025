@@ -278,4 +278,14 @@ public class Player : MonoBehaviour
             cantDrop = true;
         }
     }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "hotdog")
+        {
+            currentGun = GunType.Hotdog;
+            Destroy(other.gameObject);
+            GunCheck();
+        }
+    }
 }

@@ -10,7 +10,15 @@ public class PickupHealth : MonoBehaviour
 
     public Canvas pickupCanvas;
     public TextMeshProUGUI healthText;
+    public GameObject itemToSpawn;
+    public GameObject itemSpawnPosition;
 
+    public enum PickUpType
+    {
+        Hotdog
+    }
+
+    [SerializeField] public PickUpType currentPickup;
 
     void Start()
     {
@@ -29,11 +37,10 @@ public class PickupHealth : MonoBehaviour
         if (currentHealth < 1)
         {
             currentHealth = 0;
+            Instantiate(itemToSpawn, itemSpawnPosition.transform.position, Quaternion.identity);
             Destroy(this.gameObject);
         }
 
         healthText.text = currentHealth + "/" + startingHealth;
-
     }
-
 }
