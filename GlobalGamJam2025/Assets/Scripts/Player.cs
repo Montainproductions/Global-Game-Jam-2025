@@ -100,22 +100,22 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey(KeyCode.A))
         {
-            Sc_GameManager.Instance.PlayPlayerAudioOneShot(playerClips[5]);
+            Sc_Audio.instance.PlayPlayerAudioOneShot(playerClips[5]);
             MoveLeft();
         }
         else if (Input.GetKeyUp(KeyCode.A))
         {
-            Sc_GameManager.Instance.StopPlayerAudio();
+            Sc_Audio.instance.StopPlayerAudio();
             animator.SetBool("strafeLeft", false);
         }
 
         if (Input.GetKey(KeyCode.D))
         {
-            Sc_GameManager.Instance.PlayPlayerAudioOneShot(playerClips[5]);
+            Sc_Audio.instance.PlayPlayerAudioOneShot(playerClips[5]);
             MoveRight();
         }else if(Input.GetKeyUp(KeyCode.D))
         {
-            Sc_GameManager.Instance.StopPlayerAudio();
+            Sc_Audio.instance.StopPlayerAudio();
             animator.SetBool("strafeRight", false);
         }
 
@@ -220,11 +220,11 @@ public class Player : MonoBehaviour
                 Debug.Log("shooting");
                 if (currentGun == GunType.Normal)
                 {
-                    Sc_GameManager.Instance.PlayPlayerAudioOneShot(playerClips[0]);
+                    Sc_Audio.instance.PlayPlayerAudioOneShot(playerClips[0]);
                 }
                 else if (currentGun == GunType.Hotdog)
                 {
-                    Sc_GameManager.Instance.PlayPlayerAudioOneShot(playerClips[1]);
+                    Sc_Audio.instance.PlayPlayerAudioOneShot(playerClips[1]);
                 }
                 if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, shootingDistance, layerMask))
                 {
@@ -264,7 +264,7 @@ public class Player : MonoBehaviour
 
                     if (currentGun != GunType.Normal)
                     {
-                        Sc_GameManager.Instance.PlayPlayerAudioOneShot(playerClips[1]);
+                        Sc_Audio.instance.PlayPlayerAudioOneShot(playerClips[1]);
                         if (specialBulletsRemaining > 1)
                         {
                             specialBulletsRemaining -= 1;
@@ -282,7 +282,7 @@ public class Player : MonoBehaviour
         }else{
             if (airRate <= 0)
             {
-                Sc_GameManager.Instance.PlayPlayerAudioOneShot(playerClips[2]);
+                Sc_Audio.instance.PlayPlayerAudioOneShot(playerClips[2]);
                 animator.SetBool("isShooting", true);
 
                 if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, shootingDistance, layerMask))
@@ -326,7 +326,7 @@ public class Player : MonoBehaviour
         {
             if (cactusCache[0] != null)
             {
-                Sc_GameManager.Instance.PlayPlayerAudioOneShot(playerClips[3]);
+                Sc_Audio.instance.PlayPlayerAudioOneShot(playerClips[3]);
                 Instantiate(cactusCache[0], cactusDropPosition.transform.position, Quaternion.identity);
 
                 cactusCache[0] = null;
@@ -341,7 +341,7 @@ public class Player : MonoBehaviour
             }
             else
             {
-                Sc_GameManager.Instance.PlayPlayerAudioOneShot(playerClips[4]);
+                Sc_Audio.instance.PlayPlayerAudioOneShot(playerClips[4]);
                 Debug.Log("no cactus");
             }
         }

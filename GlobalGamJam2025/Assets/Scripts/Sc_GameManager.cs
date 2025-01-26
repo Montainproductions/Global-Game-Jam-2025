@@ -23,7 +23,7 @@ public class Sc_GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        NewRoundPoints();
+        //NewRoundPoints();
     }
 
     // Update is called once per frame
@@ -32,7 +32,7 @@ public class Sc_GameManager : MonoBehaviour
 
     }
 
-    public void NewRoundPoints()
+    /*public void NewRoundPoints()
     {
         currentRound++;
 
@@ -156,5 +156,5 @@ public class Sc_GameManager : MonoBehaviour
         }
 
         yield return null;
-    }
+    }*/
 }
