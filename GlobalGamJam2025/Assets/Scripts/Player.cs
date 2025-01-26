@@ -15,6 +15,10 @@ public class Player : MonoBehaviour
     public float maxX;
     public float curX;
     public float moveSpeed;
+
+    public float deathTimer;
+    public float deathTimerReset;
+
     public bool inflator;
     public Image blenderImage;
     public List<Sprite> blenderSprites = new List<Sprite>();
@@ -60,16 +64,17 @@ public class Player : MonoBehaviour
     void Start()
     {
         currentHP = maxHP;
+        animator.SetBool("isDead", false);
+        deathTimer = deathTimerReset;
 
-        /* GameObject damageFX;
-         for (int i = 0; i < pooledDamageEffectCount; i++)
-         {
-             damageFX = Instantiate(damageEffect);
-             damageFX.SetActive(false);
-             pooledDamageEffects.Add(damageFX);
-         }
+        GameObject damageFX;
+        for (int i = 0; i < pooledDamageEffectCount; i++)
+        {
+            damageFX = Instantiate(damageEffect);
+            damageFX.SetActive(false);
+            pooledDamageEffects.Add(damageFX);
+        }
 
-         */
         GunCheck();
 
         if (inflator)
@@ -85,64 +90,85 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (currentHP <= 0)
+        {
+            animator.SetBool("isDead", true);
 
-        if (fireRate > 0)
-        {
-            fireRate -= Time.deltaTime;
-        }
-
-        if (airRate > 0)
-        {
-            airRate -= Time.deltaTime;
-        }
-
-        if (Input.GetKey(KeyCode.A))
-        {
-            MoveLeft();
-        }
-        else
-        {
-            animator.SetBool("strafeLeft", false);
-        }
-
-        if (Input.GetKey(KeyCode.D))
-        {
-            MoveRight();
-        }
-        else
-        {
-            animator.SetBool("strafeRight", false);
-        }
-
-        if (Input.GetKey(KeyCode.Space))
-        {
-            Shoot();
-        }
-        else
-        {
-            if (fireRate <= 0 && airRate <= 0)
+            if (deathTimer > 0)
             {
-                animator.SetBool("isShooting", false);
+                deathTimer -= Time.deltaTime;
+            }
+            else
+            {
+                ResetGame();
             }
         }
 
-        if (Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.D))
+        else
         {
-            animator.SetBool("strafeLeft", false);
-            animator.SetBool("strafeRight", false);
-        }
+            if (fireRate > 0)
+            {
+                fireRate -= Time.deltaTime;
+            }
 
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            SwapWeapon();
-        }
+            if (airRate > 0)
+            {
+                airRate -= Time.deltaTime;
+            }
 
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            DropCactus();
+            if (Input.GetKey(KeyCode.A))
+            {
+                MoveLeft();
+            }
+            else
+            {
+                animator.SetBool("strafeLeft", false);
+            }
+
+            if (Input.GetKey(KeyCode.D))
+            {
+                MoveRight();
+            }
+            else
+            {
+                animator.SetBool("strafeRight", false);
+            }
+
+            if (Input.GetKey(KeyCode.Space))
+            {
+                Shoot();
+            }
+            else
+            {
+                if (fireRate <= 0 && airRate <= 0)
+                {
+                    animator.SetBool("isShooting", false);
+                }
+            }
+
+            if (Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.D))
+            {
+                animator.SetBool("strafeLeft", false);
+                animator.SetBool("strafeRight", false);
+            }
+
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                SwapWeapon();
+            }
+
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                DropCactus();
+            }
         }
     }
 
+    public void ResetGame()
+    {
+
+
+    }
     public void GunCheck()
     {
         switch (currentGun)
@@ -244,6 +270,7 @@ public class Player : MonoBehaviour
 
                     if (hit.collider.tag == "pickup")
                     {
+                        Debug.Log("hit pickup ");
                         for (int i = 0; i < pooledDamageEffectCount; i++)
                         {
                             if (!pooledDamageEffects[i].activeInHierarchy)

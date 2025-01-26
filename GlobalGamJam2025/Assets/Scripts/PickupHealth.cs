@@ -7,7 +7,6 @@ public class PickupHealth : MonoBehaviour
 {
     public float startingHealth;
     public float currentHealth;
-    public float currentSpeed;
 
     public Canvas pickupCanvas;
     public TextMeshProUGUI healthText;
@@ -16,20 +15,28 @@ public class PickupHealth : MonoBehaviour
 
     public enum PickUpType
     {
-        Hotdog
+        Hotdog,
+        Pretzal,
+        Pickbundle,
+        Cactus0,
+        Cactus1
     }
 
     [SerializeField] public PickUpType currentPickup;
 
-    void Start()
+    private void OnEnable()
     {
         currentHealth = startingHealth;
         UpdateHealth();
     }
-
-     void Update()
+    void Start()
     {
-        transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - currentSpeed * Time.deltaTime);
+
+    }
+
+    void Update()
+    {
+
     }
 
     public void UpdateHealth()

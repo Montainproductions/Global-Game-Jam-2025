@@ -10,6 +10,7 @@ TagManager:
   - item_cactus0
   - item_cactus1
   - item_hotdog
+  - item_pretzal
   layers:
   - Default
   - TransparentFX

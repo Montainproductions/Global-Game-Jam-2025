@@ -5,6 +5,9 @@ using TMPro;
 
 public class Sc_Health : MonoBehaviour
 {
+    public bool small;
+    public bool medium;
+    public bool big;
     public Animator animator;
     public float debuffTimer;
     public float speedModifier;
@@ -12,6 +15,10 @@ public class Sc_Health : MonoBehaviour
     public float minZ;
     public float deathCounter;
     public float deathReset;
+
+    public Player player;
+    public float timeToDamage;
+    public float timeToDamageReset;
 
     public float startingHealth;
     public float currentHealth;
@@ -22,17 +29,26 @@ public class Sc_Health : MonoBehaviour
     public Canvas enemyCanvas;
     public TextMeshProUGUI healthText;
     public TextMeshProUGUI inflationText;
+    public EnemyWaveSpawner enemyWaveSpawner;
 
     public bool dead;
 
- void Start()
+    private void OnEnable()
     {
         this.GetComponent<BoxCollider>().enabled = true;
+        animator.speed = 1;
+        timeToDamage = timeToDamageReset;
         dead = false;
         animator.SetBool("isDead", false);
         deathCounter = deathReset;
         currentHealth = startingHealth;
+        currentInflation = 0;
         UpdateHealth();
+    }
+
+    void Start()
+    {
+
     }
 
     private void Update()
@@ -55,8 +71,25 @@ public class Sc_Health : MonoBehaviour
             }
             else
             {
+                if (timeToDamage > 0)
+                {
+                    timeToDamage -= Time.deltaTime;
+                }
+                else
+                {
+                    AttackPlayer();
+                }
+
                 animator.SetBool("isWalking", false);
-                animator.SetBool("isAttacking", true);
+
+                if (big)
+                {
+                    animator.SetBool("isAttacking", true);
+                }
+                else
+                {
+                    animator.speed = 2;
+                }
             }
         }
         else
@@ -70,15 +103,23 @@ public class Sc_Health : MonoBehaviour
                 }
                 else
                 {
+                    enemyWaveSpawner.currentKills += 1;
                     this.gameObject.SetActive(false);
                 }
             }
         }
 
-        
+
     }
 
-    public void UpdateHealth(){
+    public void AttackPlayer()
+    {
+        player.currentHP -= 1;
+        timeToDamage = timeToDamageReset;
+    }
+
+    public void UpdateHealth()
+    {
 
         if (!dead)
         {
@@ -86,7 +127,10 @@ public class Sc_Health : MonoBehaviour
             {
                 currentHealth = 0;
                 animator.SetBool("isWalking", false);
-                animator.SetBool("isAttacking", false);
+                if (big)
+                {
+                    animator.SetBool("isAttacking", false);
+                }
                 animator.SetBool("isDead", true);
                 dead = true;
             }
