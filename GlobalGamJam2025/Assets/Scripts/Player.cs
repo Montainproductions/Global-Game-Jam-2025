@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField]
+    private AudioClip[] playerClips;
 
     public Animator animator;
 
@@ -15,10 +17,6 @@ public class Player : MonoBehaviour
     public float maxX;
     public float curX;
     public float moveSpeed;
-
-    public float deathTimer;
-    public float deathTimerReset;
-
     public bool inflator;
     public Image blenderImage;
     public List<Sprite> blenderSprites = new List<Sprite>();
@@ -64,17 +62,16 @@ public class Player : MonoBehaviour
     void Start()
     {
         currentHP = maxHP;
-        animator.SetBool("isDead", false);
-        deathTimer = deathTimerReset;
 
-        GameObject damageFX;
-        for (int i = 0; i < pooledDamageEffectCount; i++)
-        {
-            damageFX = Instantiate(damageEffect);
-            damageFX.SetActive(false);
-            pooledDamageEffects.Add(damageFX);
-        }
+        /* GameObject damageFX;
+         for (int i = 0; i < pooledDamageEffectCount; i++)
+         {
+             damageFX = Instantiate(damageEffect);
+             damageFX.SetActive(false);
+             pooledDamageEffects.Add(damageFX);
+         }
 
+         */
         GunCheck();
 
         if (inflator)
@@ -90,85 +87,96 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (currentHP <= 0)
-        {
-            animator.SetBool("isDead", true);
 
-            if (deathTimer > 0)
+        if (fireRate > 0)
+        {
+            fireRate -= Time.deltaTime;
+        }
+
+        if (airRate > 0)
+        {
+            airRate -= Time.deltaTime;
+        }
+
+        if (Input.GetKey(KeyCode.A))
+        {
+            Sc_GameManager.Instance.PlayPlayerAudioOneShot(playerClips[5]);
+            MoveLeft();
+        }
+        else if (Input.GetKeyUp(KeyCode.A))
+        {
+            Sc_GameManager.Instance.StopPlayerAudio();
+            animator.SetBool("strafeLeft", false);
+        }
+
+        if (Input.GetKey(KeyCode.D))
+        {
+            Sc_GameManager.Instance.PlayPlayerAudioOneShot(playerClips[5]);
+            MoveRight();
+        }else if(Input.GetKeyUp(KeyCode.D))
+        {
+            Sc_GameManager.Instance.StopPlayerAudio();
+            animator.SetBool("strafeRight", false);
+        }
+
+        if (Input.GetKey(KeyCode.Space))
+        {
+            Shoot();
+        }else{
+            if (fireRate <= 0 && airRate <= 0)
             {
-                deathTimer -= Time.deltaTime;
-            }
-            else
-            {
-                ResetGame();
+                animator.SetBool("isShooting", false);
             }
         }
 
+        if (Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.D))
+        {
+            animator.SetBool("strafeLeft", false);
+            animator.SetBool("strafeRight", false);
+        }
+
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            SwapWeapon();
+        }
+
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            DropCactus();
+        }
+    }
+
+    public void MoveLeft()
+    {
+        if (transform.position.x > -maxX)
+        {
+            curX -= moveSpeed * Time.deltaTime;
+            animator.SetBool("strafeLeft", true);
+            animator.SetBool("strafeRight", false);
+        }
         else
         {
-            if (fireRate > 0)
-            {
-                fireRate -= Time.deltaTime;
-            }
-
-            if (airRate > 0)
-            {
-                airRate -= Time.deltaTime;
-            }
-
-            if (Input.GetKey(KeyCode.A))
-            {
-                MoveLeft();
-            }
-            else
-            {
-                animator.SetBool("strafeLeft", false);
-            }
-
-            if (Input.GetKey(KeyCode.D))
-            {
-                MoveRight();
-            }
-            else
-            {
-                animator.SetBool("strafeRight", false);
-            }
-
-            if (Input.GetKey(KeyCode.Space))
-            {
-                Shoot();
-            }
-            else
-            {
-                if (fireRate <= 0 && airRate <= 0)
-                {
-                    animator.SetBool("isShooting", false);
-                }
-            }
-
-            if (Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.D))
-            {
-                animator.SetBool("strafeLeft", false);
-                animator.SetBool("strafeRight", false);
-            }
-
-            if (Input.GetKeyDown(KeyCode.W))
-            {
-                SwapWeapon();
-            }
-
-            if (Input.GetKeyDown(KeyCode.S))
-            {
-                DropCactus();
-            }
+            animator.SetBool("strafeLeft", false);
         }
+        transform.position = new Vector3(curX, transform.position.y, transform.position.z);
     }
 
-    public void ResetGame()
+    public void MoveRight()
     {
 
-
+        if (transform.position.x < maxX)
+        {
+            curX += moveSpeed * Time.deltaTime;
+            animator.SetBool("strafeRight", true);
+            animator.SetBool("strafeLeft", false);
+        }
+        else
+        {
+            animator.SetBool("strafeRight", false);
+        }
+        transform.position = new Vector3(curX, transform.position.y, transform.position.z);
     }
+
     public void GunCheck()
     {
         switch (currentGun)
@@ -201,43 +209,8 @@ public class Player : MonoBehaviour
         }
     }
 
-
-    public void MoveLeft()
-    {
-        if (transform.position.x > -maxX)
-        {
-            curX -= moveSpeed * Time.deltaTime;
-            animator.SetBool("strafeLeft", true);
-            animator.SetBool("strafeRight", false);
-        }
-        else
-        {
-            animator.SetBool("strafeLeft", false);
-        }
-
-        transform.position = new Vector3(curX, transform.position.y, transform.position.z);
-    }
-
-    public void MoveRight()
-    {
-
-        if (transform.position.x < maxX)
-        {
-            curX += moveSpeed * Time.deltaTime;
-            animator.SetBool("strafeRight", true);
-            animator.SetBool("strafeLeft", false);
-        }
-        else
-        {
-            animator.SetBool("strafeRight", false);
-        }
-
-        transform.position = new Vector3(curX, transform.position.y, transform.position.z);
-    }
-
     public void Shoot()
     {
-
         if (!inflator)
         {
             if (fireRate <= 0)
@@ -245,10 +218,16 @@ public class Player : MonoBehaviour
                 animator.SetBool("isShooting", true);
 
                 Debug.Log("shooting");
-
+                if (currentGun == GunType.Normal)
+                {
+                    Sc_GameManager.Instance.PlayPlayerAudioOneShot(playerClips[0]);
+                }
+                else if (currentGun == GunType.Hotdog)
+                {
+                    Sc_GameManager.Instance.PlayPlayerAudioOneShot(playerClips[1]);
+                }
                 if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, shootingDistance, layerMask))
                 {
-
                     if (hit.collider.tag == "enemy")
                     {
                         for (int i = 0; i < pooledDamageEffectCount; i++)
@@ -267,10 +246,8 @@ public class Player : MonoBehaviour
                         Debug.Log(" enemy hit");
                     }
 
-
                     if (hit.collider.tag == "pickup")
                     {
-                        Debug.Log("hit pickup ");
                         for (int i = 0; i < pooledDamageEffectCount; i++)
                         {
                             if (!pooledDamageEffects[i].activeInHierarchy)
@@ -283,18 +260,15 @@ public class Player : MonoBehaviour
 
                         hit.collider.GetComponent<PickupHealth>().currentHealth -= damage;
                         hit.collider.GetComponent<PickupHealth>().UpdateHealth();
-
                     }
-
 
                     if (currentGun != GunType.Normal)
                     {
+                        Sc_GameManager.Instance.PlayPlayerAudioOneShot(playerClips[1]);
                         if (specialBulletsRemaining > 1)
                         {
                             specialBulletsRemaining -= 1;
-                        }
-                        else
-                        {
+                        }else{
                             specialBulletsRemaining = 0;
                             currentGun = GunType.Normal;
                             GunCheck();
@@ -302,20 +276,13 @@ public class Player : MonoBehaviour
 
                         specialBulletText.text = specialBulletsRemaining.ToString();
                     }
-
                 }
-
                 fireRate = fireRateReset;
-
             }
-
-        }
-        else
-        {
-
+        }else{
             if (airRate <= 0)
             {
-
+                Sc_GameManager.Instance.PlayPlayerAudioOneShot(playerClips[2]);
                 animator.SetBool("isShooting", true);
 
                 if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, shootingDistance, layerMask))
@@ -326,10 +293,8 @@ public class Player : MonoBehaviour
                         hit.collider.GetComponent<Sc_Health>().UpdateHealth();
                     }
                 }
-
                 airRate = airRateReset;
             }
-
         }
     }
 
@@ -361,6 +326,7 @@ public class Player : MonoBehaviour
         {
             if (cactusCache[0] != null)
             {
+                Sc_GameManager.Instance.PlayPlayerAudioOneShot(playerClips[3]);
                 Instantiate(cactusCache[0], cactusDropPosition.transform.position, Quaternion.identity);
 
                 cactusCache[0] = null;
@@ -375,12 +341,39 @@ public class Player : MonoBehaviour
             }
             else
             {
+                Sc_GameManager.Instance.PlayPlayerAudioOneShot(playerClips[4]);
                 Debug.Log("no cactus");
             }
         }
         else
         {
             Debug.Log("cant drop here");
+        }
+    }
+
+    public void CactusCheck()
+    {
+        for (int i = 0; i < cactusCache.Count; i++)
+        {
+            if (cactusCache[i] == cactai[0])
+            {
+                cactusImages[i].sprite = cactusSprites[0];
+                cactusImages[i].gameObject.SetActive(true);
+
+            }
+
+            else if (cactusCache[i] == cactai[1])
+            {
+                cactusImages[i].sprite = cactusSprites[1];
+                cactusImages[i].gameObject.SetActive(true);
+
+            }
+
+            else if (cactusCache[i] == null)
+            {
+                cactusImages[i].gameObject.SetActive(false);
+
+            }
         }
     }
 
@@ -395,8 +388,6 @@ public class Player : MonoBehaviour
             cantDrop = false;
         }
     }
-
-
 
     public void OnTriggerEnter(Collider other)
     {
@@ -459,32 +450,4 @@ public class Player : MonoBehaviour
             }
         }
     }
-
-    public void CactusCheck()
-    {
-        for (int i = 0; i < cactusCache.Count; i++)
-        {
-            if (cactusCache[i] == cactai[0])
-            {
-                cactusImages[i].sprite = cactusSprites[0];
-                cactusImages[i].gameObject.SetActive(true);
-
-            }
-
-            else if (cactusCache[i] == cactai[1])
-            {
-                cactusImages[i].sprite = cactusSprites[1];
-                cactusImages[i].gameObject.SetActive(true);
-
-            }
-
-            else if (cactusCache[i] == null)
-            {
-                cactusImages[i].gameObject.SetActive(false);
-
-            }
-        }
-    }
 }
-
-
