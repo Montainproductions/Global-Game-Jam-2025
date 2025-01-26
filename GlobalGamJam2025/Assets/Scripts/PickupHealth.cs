@@ -7,6 +7,7 @@ public class PickupHealth : MonoBehaviour
 {
     public float startingHealth;
     public float currentHealth;
+    public float currentSpeed;
 
     public Canvas pickupCanvas;
     public TextMeshProUGUI healthText;
@@ -26,9 +27,9 @@ public class PickupHealth : MonoBehaviour
         UpdateHealth();
     }
 
-    private void Update()
+     void Update()
     {
-
+        transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - currentSpeed * Time.deltaTime);
     }
 
     public void UpdateHealth()

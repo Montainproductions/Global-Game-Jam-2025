@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -11,9 +12,14 @@ public class Player : MonoBehaviour
     public float moveSpeed;
     public bool inflator;
     public TextMeshProUGUI debugGunText;
+    public Image specialBulletImage;
+    public TextMeshProUGUI specialBulletText;
 
     [Header("Shooting")]
     public int damage;
+    public int air;
+    public float airRateReset;
+    public float airRate;
     public float fireRateReset;
     public float fireRate;
     public int specialBulletsRemaining;
@@ -64,7 +70,8 @@ public class Player : MonoBehaviour
         }
 
 
-        //DEBUG - Delete Later
+        GunCheck();
+
         if (inflator)
         {
             debugGunText.text = "inflator";
@@ -82,6 +89,11 @@ public class Player : MonoBehaviour
         if (fireRate > 0)
         {
             fireRate -= Time.deltaTime;
+        }
+
+        if (airRate > 0)
+        {
+            airRate -= Time.deltaTime;
         }
 
         if (Input.GetKey(KeyCode.A))
@@ -116,10 +128,24 @@ public class Player : MonoBehaviour
         {
             case GunType.Normal:
                 fireRateReset = .15f;
+                damage = 1;
                 break;
             case GunType.Hotdog:
                 fireRateReset = .35f;
+                specialBulletsRemaining = 20;
+                damage = 3;
                 break;
+        }
+
+        if (specialBulletsRemaining > 0)
+        {
+            specialBulletImage.gameObject.SetActive(true);
+            specialBulletText.text = specialBulletsRemaining.ToString();
+        }
+        else
+        {
+            specialBulletImage.gameObject.SetActive(false);
+            specialBulletText.text = specialBulletsRemaining.ToString();
         }
     }
 
@@ -147,75 +173,89 @@ public class Player : MonoBehaviour
 
     public void Shoot()
     {
-        if (fireRate <= 0)
+
+        if (!inflator)
         {
-            Debug.Log("shooting");
-            //Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * shootingDistance, Color.yellow);
-            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, shootingDistance, layerMask))
+            if (fireRate <= 0)
             {
-                if (hit.collider.tag == "enemy")
+                Debug.Log("shooting");
+
+                if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, shootingDistance, layerMask))
                 {
-                    for (int i = 0; i < pooledDamageEffectCount; i++)
+
+                    if (hit.collider.tag == "enemy")
                     {
-                        if (!pooledDamageEffects[i].activeInHierarchy)
+                        for (int i = 0; i < pooledDamageEffectCount; i++)
                         {
-                            pooledDamageEffects[i].transform.position = hit.point;
-                            pooledDamageEffects[i].SetActive(true);
-                            break;
+                            if (!pooledDamageEffects[i].activeInHierarchy)
+                            {
+                                pooledDamageEffects[i].transform.position = hit.point;
+                                pooledDamageEffects[i].SetActive(true);
+                                break;
+                            }
                         }
+
+                        hit.collider.GetComponent<Sc_Health>().currentHealth -= damage;
+                        hit.collider.GetComponent<Sc_Health>().UpdateHealth();
+
+                        Debug.Log(" enemy hit");
                     }
 
 
-
-
-                    Debug.Log("hit");
-                }
-
-                if (hit.collider.tag == "pickup")
-                {
-                    for (int i = 0; i < pooledDamageEffectCount; i++)
+                    if (hit.collider.tag == "pickup")
                     {
-                        if (!pooledDamageEffects[i].activeInHierarchy)
+                        for (int i = 0; i < pooledDamageEffectCount; i++)
                         {
-                            pooledDamageEffects[i].transform.position = hit.point;
-                            pooledDamageEffects[i].SetActive(true);
-                            break;
+                            if (!pooledDamageEffects[i].activeInHierarchy)
+                            {
+                                pooledDamageEffects[i].transform.position = hit.point;
+                                pooledDamageEffects[i].SetActive(true);
+                                break;
+                            }
                         }
-                    }
 
-                    if (!inflator)
-                    {
                         hit.collider.GetComponent<PickupHealth>().currentHealth -= damage;
+                        hit.collider.GetComponent<PickupHealth>().UpdateHealth();
+
                     }
-                    else
+
+
+                    if (currentGun != GunType.Normal)
                     {
+                        if (specialBulletsRemaining > 1)
+                        {
+                            specialBulletsRemaining -= 1;
+                        }
+                        else
+                        {
+                            specialBulletsRemaining = 0;
+                            currentGun = GunType.Normal;
+                            GunCheck();
+                        }
 
+                        specialBulletText.text = specialBulletsRemaining.ToString();
                     }
 
-                    hit.collider.GetComponent<PickupHealth>().UpdateHealth();
-
                 }
+
+                fireRate = fireRateReset;
+
             }
-            else
+        } else {
+
+            if (airRate <= 0)
             {
-                Debug.Log("no hit");
-            }
-
-            if (currentGun != GunType.Normal)
-            {
-                if (specialBulletsRemaining > 1)
+                if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, shootingDistance, layerMask))
                 {
-                    specialBulletsRemaining -= 1;
+                    if (hit.collider.tag == "enemy")
+                    {
+                        hit.collider.GetComponent<Sc_Health>().currentInflation += air;
+                        hit.collider.GetComponent<Sc_Health>().UpdateHealth();
+                    }
                 }
-                else
-                {
-                    specialBulletsRemaining = 0;
-                    currentGun = GunType.Normal;
-                    GunCheck();
-                }
-            }
 
-            fireRate = fireRateReset;
+                airRate = airRateReset;
+            }
 
         }
     }
@@ -226,11 +266,19 @@ public class Player : MonoBehaviour
         {
             inflator = false;
             debugGunText.text = "bullets";
+            if (specialBulletsRemaining > 0)
+            {
+                specialBulletImage.gameObject.SetActive(true);
+                specialBulletText.text = specialBulletsRemaining.ToString();
+
+            }
         }
         else
         {
             inflator = true;
             debugGunText.text = "inflator";
+            specialBulletImage.gameObject.SetActive(false);
+
         }
     }
 
